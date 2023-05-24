@@ -1,19 +1,44 @@
-const express = require('express');
-const mongoose = require('mongoose');
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
-const app = express();
+//module imports
+import userRoutes from "./routes/user.routes.js";
 
-mongoose.connect('mongodb+srv://<username>:<password>@cluster0.mongodb.net/test?retryWrites=true&w=majority', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
 
-const connection = mongoose.connection;
 
-connection.once('open', function () {
-    console.log("MongoDB database connection established successfully");
-})
 
-app.listen(3000, function () {
-    console.log('Server is running on port 3000');
-});   
+try {
+    const app = express();
+    const PORT = process.env.PORT || 8000;
+
+    //db connection using mongoose driver
+    mongoose.set('strictQuery', true); // avoid deprecate warning
+
+    mongoose.connect(process.env.MONGO_URL, {
+        useNewUrlParser: true,
+    }).then(() => {
+        console.log('Connected to MongoDB');
+    }).catch((error) => {
+        console.log("Did not connect", error.message)
+    })
+
+    //middlewares
+    app.use("/api/auth", userRoutes)
+
+    //start server
+    app.listen(PORT, function () {
+        console.log('Server is running on port ', PORT);
+    });
+
+    // verfication in browser
+    app.get("/", (req, res) => {
+        res.status(200).send("<h2 >Server is running successfully </h2>");
+    });
+} catch (error) {
+    console.log("error in connecting db", error.message);
+}
+//
+
+
