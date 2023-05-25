@@ -2,17 +2,20 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
-
+import cors from "cors"
 //module imports
 import userRoutes from "./routes/user.routes.js";
+import productRoutes from "./routes/product.routes.js";
 
 
 
 
 try {
     const app = express();
-    const PORT = process.env.PORT || 8000;
 
+    const PORT = process.env.PORT || 8000;
+    app.use(express.json())
+    app.use(cors())
     //db connection using mongoose driver
     mongoose.set('strictQuery', true); // avoid deprecate warning
 
@@ -26,6 +29,7 @@ try {
 
     //middlewares
     app.use("/api/auth", userRoutes)
+    app.use("/api/products", productRoutes)
 
     //start server
     app.listen(PORT, function () {
