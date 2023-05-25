@@ -29,3 +29,4 @@ let cartSchema = new mongoose.Schema(
 //create model
 let Cart = mongoose.model("Cart", cartSchema);
 export default Cart;
+

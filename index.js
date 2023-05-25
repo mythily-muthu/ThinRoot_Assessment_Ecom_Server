@@ -6,9 +6,7 @@ import cors from "cors"
 //module imports
 import userRoutes from "./routes/user.routes.js";
 import productRoutes from "./routes/product.routes.js";
-
-
-
+import cartRoutes from "./routes/cart.routes.js";
 
 try {
     const app = express();
@@ -29,7 +27,8 @@ try {
 
     //middlewares
     app.use("/api/auth", userRoutes)
-    app.use("/api/products", productRoutes)
+    app.use("/api/products", productRoutes);
+    app.use("/api/carts", cartRoutes)
 
     //start server
     app.listen(PORT, function () {
