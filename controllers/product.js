@@ -19,7 +19,6 @@ export const getAllProducts = async (req, res) => {
 export const getSingleProduct = async (req, res) => {
     try {
         let params = req.params;
-        console.log('params', params)
         let productDetails = await Product.findById({ _id: params.productid });
         console.log('productDetails', productDetails)
         return res.status(200).send({

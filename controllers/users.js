@@ -12,10 +12,9 @@ export const registerUser = async (req, res) => {
             email,
             password
         } = req.body;
-
+        // generate random string for hash password
         let salt = await bcrypt.genSalt();
         let passwordHash = await bcrypt.hash(password, salt);
-        console.log('hashedp', passwordHash)
         let newUser = new User(
             {
                 name,
