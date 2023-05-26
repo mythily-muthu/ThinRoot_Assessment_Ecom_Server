@@ -62,6 +62,19 @@ export const getUserCarts = async (req, res) => {
 //delte cart
 export const deleteSingleCartProduct = async (req, res) => {
     try {
+
+        const { productId, userId } = req.params;
+        // get user's cart using userId
+        let userCart = await Cart.findOne({ userId });
+        console.log("user:", userCart)
+
+        const productIndex = userCart.products.findIndex((product) => product.productId.equals(productId));
+
+        // if product id exist on useCart products remove that product from cart products array;
+        if (productIndex !== -1) {
+            userCart.products.splice(productIndex, 1); // remove 1 product 
+        }
+        await userCart.save();
         return res.status(200).send({
             message: "Deleted successfully"
         })

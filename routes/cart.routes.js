@@ -10,5 +10,5 @@ router.post("/add", addToCart)
 router.get("/:userId", getUserCarts)
 
 // delete cart using product id
-router.delete("/:productId", deleteSingleCartProduct)
+router.delete("/:userId/:productId", deleteSingleCartProduct)
 export default router;
