@@ -83,3 +83,23 @@ export const deleteSingleCartProduct = async (req, res) => {
         res.status(500).json({ error: error.message })
     }
 }
+
+//delte cart
+export const clearCart = async (req, res) => {
+    try {
+        console.log(req.params)
+        const { userId } = req.params;
+
+        let userCart = await Cart.findOne({ userId });
+        // empty products array for clear all products
+        userCart.products = [];
+        userCart.save();
+        return res.status(200).send({
+            message: "User's cart items deleted successfully"
+        })
+    } catch (error) {
+        console.log("error:", error.message)
+        res.status(500).send({ error: error.message })
+    }
+}
+
